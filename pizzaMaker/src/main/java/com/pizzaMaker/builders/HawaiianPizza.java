@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pizzaMaker.logic;
+package com.pizzaMaker.builders;
 
+import com.pizzaMaker.builders.PizzaBuilder;
 import com.pizzaMaker.model.pizza.AbstractPizza;
 import com.pizzaMaker.model.pizza.Pineapple;
 

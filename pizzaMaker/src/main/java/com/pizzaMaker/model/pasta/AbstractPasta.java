@@ -7,15 +7,19 @@ package com.pizzaMaker.model.pasta;
 
 import com.pizzaMaker.model.ingredients.Cheese;
 import com.pizzaMaker.model.ingredients.Sauce;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author valeriamejia
  */
+@XmlRootElement(name = "pasta") 
 public abstract class AbstractPasta {
     protected Cheese cheese;
     protected Sauce sauce;
     
+    @XmlElement
     public abstract String getDescription();
 
     public Cheese getCheese() {

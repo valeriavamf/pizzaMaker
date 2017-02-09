@@ -22,15 +22,26 @@ public abstract class AbstractPizza implements Serializable{
     protected Cheese cheese;
     protected Sauce sauce;
     protected Size size;
+    protected boolean sendPizza;
+    protected String description = "";
+    protected double bakingtime = 0;
     
-    @XmlElement
-    public abstract String getDescription();
-    @XmlElement
-    public abstract double getBakingTime();
+  
+    public abstract void putTopping();
     @XmlElement
     public abstract int getPizzaSlice();
 
 
+    @XmlElement
+    public  String getDescription(){
+        return description;
+    }
+    @XmlElement
+    public double getBakingTime(){
+        return bakingtime;
+    }
+    
+    
     public Crust getCrust() {
         return crust;
     }
@@ -63,8 +74,16 @@ public abstract class AbstractPizza implements Serializable{
         this.size = size;
     }
 
+    public boolean isSendPizza() {
+        return sendPizza;
+    }
+
+    public void setSendPizza(boolean sendPizza) {
+        this.sendPizza = sendPizza;
+    }
+
     
-    
+   
     
     
 }

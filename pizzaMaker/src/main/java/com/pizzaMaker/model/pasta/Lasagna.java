@@ -5,14 +5,25 @@
  */
 package com.pizzaMaker.model.pasta;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  *
  * @author vmejia
  */
-public class Lasagna extends AbstractPasta{
-   
+@XmlRootElement(name = "pasta") 
+public class Lasagna extends ToppingPasta{
+    
+    public Lasagna() {
+    }
+    
+    public Lasagna(AbstractPasta pasta) {
+        super(pasta);
+    }
+
     @Override
     public String getDescription() {
-        return "Lasagna ";
-    } 
+        return super.getDescription() + ", lasagna";
+    }
+    
 }

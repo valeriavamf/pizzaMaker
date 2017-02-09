@@ -3,24 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pizzaMaker.logic;
+package com.pizzaMaker.builders;
 
 import com.pizzaMaker.model.salad.AbstractSalad;
-import com.pizzaMaker.model.salad.Onion;
-import com.pizzaMaker.model.salad.Tommato;
+import com.pizzaMaker.model.salad.Salad;
 
 /**
  *
  * @author valeriamejia
  */
-public class BasicSalad extends SaladBuilder{
+public class EmptySalad extends SaladBuilder{
 
     @Override
     public AbstractSalad buildSalad() {
-        Tommato tommatoSalad = new Tommato(salad);
-        Onion onionSalad = new Onion(tommatoSalad);
         
-        return onionSalad;
+        return new Salad();
     }
     
 }

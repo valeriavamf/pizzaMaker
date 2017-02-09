@@ -5,30 +5,30 @@
  */
 package com.pizzaMaker.model.pizza;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  *
  * @author valeriamejia
  */
+@XmlRootElement(name = "pizza")
 public class Pizza extends AbstractPizza {
-    private final StringBuilder description = new StringBuilder("pizza ");
-    @Override
-    public String getDescription() {
-       
-        description.append(crust.getDescription())
-        .append(", ").append(cheese.getDescription())
-        .append(", ").append(sauce.getDescription());
-        
-        return description.toString();
-    }
+    private final StringBuilder desc = new StringBuilder("pizza ");
 
     @Override
-    public double getBakingTime() {
-        return crust.getBakingTime()+cheese.getBakingTime()+sauce.getBakingTime()+size.getBakingTime();
+    public void putTopping() {
+
+        desc.append(crust.getDescription())
+                .append(", ").append(cheese.getDescription())
+                .append(", ").append(sauce.getDescription());
+        description = desc.toString();
+        bakingtime = crust.getBakingTime() + cheese.getBakingTime() + sauce.getBakingTime() + size.getBakingTime();
     }
+    
     
     @Override
     public int getPizzaSlice() {
         return size.getPizzaSlices();
     }
-    
+
 }

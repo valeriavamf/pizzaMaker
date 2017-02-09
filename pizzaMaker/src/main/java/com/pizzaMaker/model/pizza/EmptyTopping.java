@@ -3,19 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pizzaMaker.model.salad;
+package com.pizzaMaker.model.pizza;
 
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author valeriamejia
  */
-@XmlRootElement(name = "salad")
-public abstract class AbstractSalad {
+@XmlRootElement(name = "pizza") 
+public class EmptyTopping extends Topping{
 
-    @XmlElement
-    public abstract String getDescription();
-
+    public EmptyTopping() {
+    }
+    
+    public EmptyTopping(AbstractPizza pizza) {
+        super(pizza);
+    }
+   
 }

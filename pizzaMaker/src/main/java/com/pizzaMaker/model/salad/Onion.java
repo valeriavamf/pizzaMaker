@@ -5,10 +5,13 @@
  */
 package com.pizzaMaker.model.salad;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  *
  * @author valeriamejia
  */
+@XmlRootElement(name = "salad")
 public class Onion extends ToppingVeggie{
     
     public Onion() {

@@ -5,32 +5,32 @@
  */
 package com.pizzaMaker.model.pizza;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  *
  * @author valeriamejia
  */
-public class Asparagus extends Topping{
+@XmlRootElement(name = "pizza")
+public class Asparagus extends Topping {
 
     public Asparagus() {
     }
-    
+
     public Asparagus(AbstractPizza pizza) {
         super(pizza);
     }
-    
-    @Override
-    public String getDescription() {
-        return super.getDescription() + ", asparagus";
-    }
 
     @Override
-    public double getBakingTime() {
-        return super.getBakingTime() + 2;
+    public void putTopping() {
+        pizza.putTopping();
+        description = pizza.getDescription() +", asparagus";
+        bakingtime = pizza.getBakingTime() + 2;
     }
-    
+
     @Override
     public int getPizzaSlice() {
         return super.getPizzaSlice();
     }
-    
+
 }

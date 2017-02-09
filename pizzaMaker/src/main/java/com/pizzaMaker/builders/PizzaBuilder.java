@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pizzaMaker.logic;
+package com.pizzaMaker.builders;
 
 import com.pizzaMaker.model.ingredients.Cheese;
 import com.pizzaMaker.model.ingredients.Crust;
@@ -25,7 +25,7 @@ public abstract class PizzaBuilder {
     
     public abstract AbstractPizza buildPizza();
 
-    void createNewPizza(Cheese cheese, Crust crust, Sauce sauce, Size size) {
+    public void createNewPizza(Cheese cheese, Crust crust, Sauce sauce, Size size) {
         this.pizza = new Pizza();
         pizza.setCheese(cheese);
         pizza.setCrust(crust);

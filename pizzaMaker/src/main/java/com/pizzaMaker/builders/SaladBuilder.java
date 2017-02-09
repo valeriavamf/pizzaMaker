@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pizzaMaker.logic;
+package com.pizzaMaker.builders;
 
 import com.pizzaMaker.model.salad.AbstractSalad;
 import com.pizzaMaker.model.salad.Salad;
@@ -17,7 +17,7 @@ public abstract class SaladBuilder {
     
     public abstract AbstractSalad buildSalad();
 
-    void createNewSalad() {
+    public void createNewSalad() {
         this.salad = new Salad();
     }
 }

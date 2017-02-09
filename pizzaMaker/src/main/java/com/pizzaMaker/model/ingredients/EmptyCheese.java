@@ -3,21 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pizzaMaker.model.salad;
-
-import javax.xml.bind.annotation.XmlRootElement;
+package com.pizzaMaker.model.ingredients;
 
 /**
  *
  * @author valeriamejia
  */
-@XmlRootElement(name = "salad")
-public class Salad extends AbstractSalad{
- 
+public class EmptyCheese extends Cheese{
 
     @Override
     public String getDescription() {
-        return "salad: ";
+        return "";
     }
-    
+
+    @Override
+    public double getBakingTime() {
+        return 0;
+    }
+
+       
 }

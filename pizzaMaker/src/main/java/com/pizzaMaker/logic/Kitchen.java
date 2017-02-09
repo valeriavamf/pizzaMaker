@@ -5,102 +5,75 @@
  */
 package com.pizzaMaker.logic;
 
+import com.pizzaMaker.builders.PastaBuilder;
+import com.pizzaMaker.builders.PizzaBuilder;
+import com.pizzaMaker.builders.SaladBuilder;
+import com.pizzaMaker.factory.PizzaBuilderFactory;
+import com.pizzaMaker.factory.CheeseFactory;
+import com.pizzaMaker.factory.CrustFactory;
+import com.pizzaMaker.factory.PastaBuilderFactory;
+import com.pizzaMaker.factory.SaladBuilderFactory;
+import com.pizzaMaker.factory.SauceFactory;
+import com.pizzaMaker.factory.SizeFactory;
+import com.pizzaMaker.factory.ToppingFactory;
+import com.pizzaMaker.model.PizzaInfo;
 import com.pizzaMaker.model.SliceInfo;
-import com.pizzaMaker.model.ingredients.BasicSauce;
-import com.pizzaMaker.model.ingredients.BlueCheese;
-import com.pizzaMaker.model.ingredients.Cheese;
-import com.pizzaMaker.model.ingredients.CheeseCrust;
-import com.pizzaMaker.model.ingredients.Crust;
-import com.pizzaMaker.model.ingredients.DamboCheese;
-import com.pizzaMaker.model.ingredients.HotSauce;
-import com.pizzaMaker.model.ingredients.ItalianSauce;
-import com.pizzaMaker.model.ingredients.LargeSize;
-import com.pizzaMaker.model.ingredients.MediumSize;
-import com.pizzaMaker.model.ingredients.MozzarellaCheese;
-import com.pizzaMaker.model.ingredients.PersonalSize;
-import com.pizzaMaker.model.ingredients.Sauce;
-import com.pizzaMaker.model.ingredients.Size;
-import com.pizzaMaker.model.ingredients.SmallSize;
-import com.pizzaMaker.model.ingredients.SweetSauce;
-import com.pizzaMaker.model.ingredients.ThickCrust;
-import com.pizzaMaker.model.ingredients.ThinCrust;
+import com.pizzaMaker.model.pasta.AbstractPasta;
 import com.pizzaMaker.model.pizza.AbstractPizza;
-import com.pizzaMaker.model.pizza.Asparagus;
-import com.pizzaMaker.model.pizza.Bacon;
-import com.pizzaMaker.model.pizza.Corn;
-import com.pizzaMaker.model.pizza.Pineapple;
-import com.pizzaMaker.model.pizza.Topping;
-import java.util.ArrayList;
-import java.util.HashMap;
+import com.pizzaMaker.model.salad.AbstractSalad;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
  * @author valeriamejia
  */
 public class Kitchen {
-    private static final Map<Integer, Cheese> CHEESE = new HashMap<Integer, Cheese>();
-    private static final Map<Integer, Crust> CRUST = new HashMap<Integer, Crust>();
-    private static final Map<Integer, Sauce> SAUCE = new HashMap<Integer, Sauce>();
-    private static final Map<Integer, Size> SIZE = new HashMap<Integer, Size>();
-    private static final Map<Integer, Topping> TOPPING = new HashMap<Integer, Topping>();
-    static{
-      CHEESE.put(1, new BlueCheese());
-      CHEESE.put(2, new DamboCheese());
-      CHEESE.put(3, new MozzarellaCheese());
-        
-      CRUST.put(1, new CheeseCrust());
-      CRUST.put(2, new ThickCrust());
-      CRUST.put(3, new ThinCrust());  
-      
-      SAUCE.put(1, new BasicSauce());
-      SAUCE.put(2, new HotSauce());
-      SAUCE.put(3, new ItalianSauce()); 
-      SAUCE.put(4, new SweetSauce()); 
-      
-      SIZE.put(1, new PersonalSize());
-      SIZE.put(2, new SmallSize());
-      SIZE.put(3, new MediumSize()); 
-      SIZE.put(4, new LargeSize()); 
-      
-      TOPPING.put(1, new Asparagus());
-      TOPPING.put(2, new Bacon());
-      TOPPING.put(3, new Corn()); 
-      TOPPING.put(4, new Pineapple()); 
-    }
-    
-    public static void main(String[] args) {
-        Kitchen s = new Kitchen();
-        List<Integer> toppings = new ArrayList<>();
-        toppings.add(3);
-        s.makePizza(1, 3, 4, new SliceInfo(5, 1), toppings);
-    }
-    
-    
-    public void makePizza(int cheeseId, int crustId, int sauceId, 
-            SliceInfo sliceInfo, List<Integer> toppings){
-        
-        Size optionSize = SIZE.get(sliceInfo.getOption());
-        if(sliceInfo.getSlice() > 0){
-            optionSize.setPizzaSlices(sliceInfo.getSlice());
-        }
-        PizzaBuilder builder = new BrazilianPizza();
-        builder.createNewPizza(CHEESE.get(cheeseId),CRUST.get(crustId),SAUCE.get(sauceId),optionSize);
-        
-        
+
+    public AbstractPizza makePizza(PizzaInfo pizzainfo,
+            SliceInfo sliceInfo, List<Integer> toppings) {
+
+        PizzaBuilder builder = PizzaBuilderFactory.createBuilder(pizzainfo.getBuilderId());
+        builder.createNewPizza(CheeseFactory.createCheese(pizzainfo.getCheeseId()),
+                CrustFactory.createCrust(pizzainfo.getCrustId()),
+                SauceFactory.createSauce(pizzainfo.getSauceId()),
+                SizeFactory.createSize(sliceInfo));
+
         AbstractPizza basicPizza = builder.buildPizza();
-        
-     
-        for(int toppingOption : toppings){
-            Topping to = TOPPING.get(toppingOption);
-            to.setPizza(basicPizza);
-            basicPizza = to;
+
+        for (int toppingOption : toppings) {
+            AbstractPizza topping = ToppingFactory.createTopping(toppingOption, basicPizza);
+            basicPizza = topping;
         }
-        
-        System.err.println("Cooking: "+basicPizza.getDescription());
-        System.err.println("Baking time: "+basicPizza.getBakingTime());
-        System.err.println("Cut into: "+basicPizza.getPizzaSlice());
+        basicPizza.putTopping();
+        System.out.println("Cooking: " + basicPizza.getDescription());
+        System.out.println("Baking time: " + basicPizza.getBakingTime());
+        System.out.println("Cut into: " + basicPizza.getPizzaSlice());
+        basicPizza.setSendPizza(true);
+        System.out.println("Send pizza");
+
+        return basicPizza;
     }
-    
+
+    public AbstractPasta makePasta(int option, int cheese, int sauce) {
+
+        PastaBuilder builder = PastaBuilderFactory.createBuilder(option);
+        builder.createNewPasta(CheeseFactory.createCheese(cheese),
+                SauceFactory.createSauce(sauce));
+
+        AbstractPasta pasta = builder.buildPasta();
+        System.out.println("Cooking: " + pasta.getDescription());
+
+        return pasta;
+    }
+
+    public AbstractSalad makeSalad(int option) {
+
+        SaladBuilder builder = SaladBuilderFactory.createBuilder(option);
+        builder.createNewSalad();
+        AbstractSalad salad = builder.buildSalad();
+        System.out.println("Cooking: " + salad.getDescription());
+
+        return salad;
+    }
+
 }
