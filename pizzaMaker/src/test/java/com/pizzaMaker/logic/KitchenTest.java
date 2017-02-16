@@ -7,73 +7,84 @@ package com.pizzaMaker.logic;
 
 import com.pizzaMaker.model.PizzaInfo;
 import com.pizzaMaker.model.SliceInfo;
-import com.pizzaMaker.model.pasta.AbstractPasta;
 import com.pizzaMaker.model.pizza.AbstractPizza;
-import com.pizzaMaker.model.salad.AbstractSalad;
+import java.util.ArrayList;
 import java.util.List;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
  *
- * @author valeriamejia
+ * @author vmejia
  */
 public class KitchenTest {
-    
+
+    private final int blueCheeseId = 1;
+    private final int thinCrustId = 3;
+    private final int sweetSauceId = 4;
+    private final int brazilianPizzaId = 1;
+    private final int largeSizeId = 4;
+    private final int slice = 7;
+    private final int bacon = 2;
+    private final int corn = 3;
+
     public KitchenTest() {
     }
+    
 
-    /**
-     * Test of makePizza method, of class Kitchen.
-     */
+    
     @Test
-    public void testMakePizza() {
-        System.out.println("makePizza");
-        PizzaInfo pizzainfo = null;
-        SliceInfo sliceInfo = null;
-        List<Integer> toppings = null;
+    public void testMakePizza_CheckCorrectPizzaIsMake() {
+        System.out.println("testMakePizza_CheckCorrectPizzaIsMake");
+        
+        PizzaInfo pizzainfo = new PizzaInfo(blueCheeseId, thinCrustId, sweetSauceId, brazilianPizzaId);
+        SliceInfo sliceInfo = new SliceInfo(slice,largeSizeId);
+        List<Integer> toppings = new ArrayList<>();
+        toppings.add(bacon);
+        toppings.add(corn);
         Kitchen instance = new Kitchen();
-        AbstractPizza expResult = null;
         AbstractPizza result = instance.makePizza(pizzainfo, sliceInfo, toppings);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of makePasta method, of class Kitchen.
-     */
-    @Test
-    public void testMakePasta() {
-        System.out.println("makePasta");
-        int option = 0;
-        int cheese = 0;
-        int sauce = 0;
-        Kitchen instance = new Kitchen();
-        AbstractPasta expResult = null;
-        AbstractPasta result = instance.makePasta(option, cheese, sauce);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of makeSalad method, of class Kitchen.
-     */
-    @Test
-    public void testMakeSalad() {
-        System.out.println("makeSalad");
-        int option = 0;
-        Kitchen instance = new Kitchen();
-        AbstractSalad expResult = null;
-        AbstractSalad result = instance.makeSalad(option);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String expectedDescription = "pizza thin crust, blue cheese, sweet sauce, bacon, corn, bacon, corn";
+        int bakingTime = 28;
+        assertEquals(result.getDescription(), expectedDescription);
+        assertTrue(result.getBakingTime() == bakingTime);
+        assertTrue(result.getPizzaSlice() == slice);
     }
     
+    @Test
+    public void testMakePizza_CheckResultWhenIncorrectToppingIsSend() {
+        System.out.println("testMakePizza_CheckResultWhenIncorrectToppingIsSend");   
+        PizzaInfo pizzainfo = new PizzaInfo(blueCheeseId, thinCrustId, sweetSauceId, brazilianPizzaId);
+        SliceInfo sliceInfo = new SliceInfo(slice,largeSizeId);
+        List<Integer> toppings = new ArrayList<>();
+        toppings.add(bacon);
+        toppings.add(85);
+        Kitchen instance = new Kitchen();
+        AbstractPizza result = instance.makePizza(pizzainfo, sliceInfo, toppings);
+        String expectedDescription = "pizza thin crust, blue cheese, sweet sauce, bacon, corn, bacon";
+        int bakingTime = 26;
+        assertEquals(result.getDescription(), expectedDescription);
+        assertTrue(result.getBakingTime() == bakingTime);
+        assertTrue(result.getPizzaSlice() == slice);
+    }
+    
+    
+    @Test
+    public void testMakePizza_CheckIncorrectBuilderIdReturnBasicPizza() {
+        System.out.println("testMakePizza_CheckIncorrectBuilderIdReturnBasicPizza");
+        
+        PizzaInfo pizzainfo = new PizzaInfo(blueCheeseId, thinCrustId, sweetSauceId, 55);
+        SliceInfo sliceInfo = new SliceInfo(slice,largeSizeId);
+        List<Integer> toppings = new ArrayList<>();
+        toppings.add(bacon);
+        toppings.add(corn);
+        Kitchen instance = new Kitchen();
+        AbstractPizza result = instance.makePizza(pizzainfo, sliceInfo, toppings);
+        String expectedDescription = "pizza thin crust, blue cheese, sweet sauce, bacon, corn";
+        int bakingTime = 23;
+        assertEquals(result.getDescription(), expectedDescription);
+        assertTrue(result.getBakingTime() == bakingTime);
+        assertTrue(result.getPizzaSlice() == slice);
+    }
+
 }

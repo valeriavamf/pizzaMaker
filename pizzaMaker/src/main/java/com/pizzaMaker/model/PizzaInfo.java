@@ -5,16 +5,26 @@
  */
 package com.pizzaMaker.model;
 
+import java.io.Serializable;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  *
  * @author vmejia
  */
-public class PizzaInfo {
+@XmlRootElement
+public class PizzaInfo implements Serializable{
+    
+    private static final long serialVersionUID = 1L;
     private int cheeseId;
     private int crustId;
     private int sauceId;
     private int builderId;
 
+    public PizzaInfo() {
+    }
+
+    
     public PizzaInfo(int cheeseId, int crustId, int sauceId, int builderId) {
         this.cheeseId = cheeseId;
         this.crustId = crustId;

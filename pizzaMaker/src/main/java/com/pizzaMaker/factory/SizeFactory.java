@@ -21,7 +21,7 @@ public class SizeFactory {
     
     public static Size createSize(SliceInfo sliceInfo){
         Size result = null;
-        switch(sliceInfo.getOption()){
+        switch(sliceInfo.getOptionSize()){
             case 1: 
                 result = new PersonalSize();
                 break;

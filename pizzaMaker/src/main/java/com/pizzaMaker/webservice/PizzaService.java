@@ -6,7 +6,9 @@
 package com.pizzaMaker.webservice;
 
 import com.pizzaMaker.logic.Kitchen;
+import com.pizzaMaker.model.PastaInfo;
 import com.pizzaMaker.model.PizzaInfo;
+import com.pizzaMaker.model.PizzaOrder;
 import com.pizzaMaker.model.SliceInfo;
 import com.pizzaMaker.model.ingredients.CheeseCrust;
 import com.pizzaMaker.model.ingredients.DamboCheese;
@@ -19,6 +21,7 @@ import com.pizzaMaker.model.salad.AbstractSalad;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -32,34 +35,22 @@ import javax.ws.rs.core.MediaType;
 public class PizzaService {
 
 
-    @GET
-    @Path("/orderPizza/{cheeseId}/{crustId}/{sauceId}/{slice}/{option}/{builder}/{topping}")
+    @POST
+    @Path("/orderPizza")
     @Produces(MediaType.APPLICATION_XML)
-    public AbstractPizza orderPizza(@PathParam("cheeseId") int cheeseId,
-            @PathParam("crustId") int crustId, @PathParam("sauceId") int sauceId,
-            @PathParam("slice") int slice, @PathParam("option") int option,
-            @PathParam("builder") int builder,
-            @PathParam("topping") String topping) {
+    public AbstractPizza orderPizza(PizzaOrder order) {
         Kitchen kitchen = new Kitchen();
-        List<Integer> toppings = new ArrayList<>();
-
-        for (String id : topping.split(",")) {
-            toppings.add(Integer.parseInt(id));
-        }
-        SliceInfo sliceInfo = new SliceInfo(slice, option);
-        PizzaInfo pizzainfo = new PizzaInfo(cheeseId, crustId, sauceId, builder);
-        AbstractPizza pizza = kitchen.makePizza(pizzainfo, sliceInfo, toppings);
+        AbstractPizza pizza = kitchen.makePizza(order.getPizza(), order.getSlice(), order.getTopping());
         return pizza;
     }
 
-    @GET
-    @Path("/orderPasta/{option}/{cheeseId}/{sauceId}")
+    @POST
+    @Path("/orderPasta")
     @Produces(MediaType.APPLICATION_XML)
-    public AbstractPasta orderPasta(@PathParam("option") int option, @PathParam("cheeseId") int cheeseId,
-            @PathParam("sauceId") int sauceId) {
+    public AbstractPasta orderPasta(PastaInfo pastaOrder) {
         Kitchen kitchen = new Kitchen();
-
-        AbstractPasta pasta = kitchen.makePasta(option, cheeseId, sauceId);
+        AbstractPasta pasta = kitchen.makePasta(pastaOrder.getPastaOption(),
+                pastaOrder.getCheeseId(), pastaOrder.getSauceId());
         return pasta;
     }
 
@@ -68,7 +59,6 @@ public class PizzaService {
     @Produces(MediaType.APPLICATION_XML)
     public AbstractSalad orderPasta(@PathParam("option") int option) {
         Kitchen kitchen = new Kitchen();
-
         AbstractSalad salad = kitchen.makeSalad(option);
         return salad;
     }

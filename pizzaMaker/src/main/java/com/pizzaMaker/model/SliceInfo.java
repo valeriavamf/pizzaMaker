@@ -5,17 +5,23 @@
  */
 package com.pizzaMaker.model;
 
+import java.io.Serializable;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  *
  * @author valeriamejia
  */
-public class SliceInfo {
+@XmlRootElement
+public class SliceInfo implements Serializable{
     private int slice;
-    private int option;
+    private int optionSize;
 
+    
+    
     public SliceInfo(int slice, int option) {
         this.slice = slice;
-        this.option = option;
+        this.optionSize = option;
     }
 
     public SliceInfo() {
@@ -29,12 +35,12 @@ public class SliceInfo {
         this.slice = slice;
     }
 
-    public int getOption() {
-        return option;
+    public int getOptionSize() {
+        return optionSize;
     }
 
-    public void setOption(int option) {
-        this.option = option;
+    public void setOptionSize(int option) {
+        this.optionSize = option;
     }
     
     

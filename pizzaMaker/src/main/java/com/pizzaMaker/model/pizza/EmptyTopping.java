@@ -20,5 +20,17 @@ public class EmptyTopping extends Topping{
     public EmptyTopping(AbstractPizza pizza) {
         super(pizza);
     }
+    
+    @Override
+    public void putTopping() {
+        pizza.putTopping();
+        description = pizza.getDescription();
+        bakingtime = pizza.getBakingTime();
+    }
+
+    @Override
+    public int getPizzaSlice() {
+        return super.getPizzaSlice();
+    }
    
 }
